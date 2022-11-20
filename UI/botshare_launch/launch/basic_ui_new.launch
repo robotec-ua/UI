@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    
+  <include file="$(find botshare_ui_new)/launch/rosbridge_server.launch"/>
+  <include file="$(find botshare_ui_new)/launch/flask_server.launch"/>
+  <include file="$(find botshare_nodes)/launch/nodes.launch"/> 
+
+</launch>  

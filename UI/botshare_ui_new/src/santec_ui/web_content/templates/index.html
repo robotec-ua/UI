@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Indybot</title>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <script type="text/javascript" src="../static/js/nav2d.js"></script>
+    <link rel="stylesheet" href="../static/css/icons.css" />
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.png" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <main>
+        <section>
+          <h1 class="title">Santec Disinfection Robot</h1>
+
+          <div class="statistics grid-statistics-layout">
+            <div class="statistics__item">
+              <div class="statistics__icon statistics__icon_velocity">
+                <img src="../static/images/status.svg" alt="status" />
+              </div>
+              <div class="statistics__item_content">
+                <div class="statistics__item_title">Message</div>
+                <div id="statistics__desc__previous">
+                  [INFO]: Initialization...
+                </div>
+                <div id="statistics__desc">[INFO]: Please wait</div>
+              </div>
+            </div>
+
+            <div class="statistics__item">
+              <div class="statistics__icon statistics__icon_velocity">
+                <img src="../static/images/speed.svg" alt="Speed" />
+              </div>
+              <div class="statistics__item_content">
+                <div class="statistics__item_title">Velocity</div>
+                <div id="velocity__desc__previous">Linear velocity</div>
+                <div id="velocity__desc">Angular velocity</div>
+              </div>
+            </div>
+
+            <!-- <div class="statistics__item">
+              <div class="statistics__icon statistics__icon_battery">
+                <img src="../static/images/battery.svg" alt="battery" />
+              </div>
+              <div class="statistics__item_content">
+                <div class="statistics__item_title">Battery</div>
+                <div id="statistics__battery">73%</div>
+              </div>
+            </div>
+
+            <div class="statistics__item">
+              <div class="statistics__icon statistics__icon_status">
+                <img src="../static/images/status.svg" alt="extra-status" />
+              </div>
+              <div class="statistics__item_content">
+                <div class="statistics__item_title">Status</div>
+                <div id="statistics__status">H2O2</div>
+              </div>
+            </div> -->
+          </div>
+        </section>
+
+        <section>
+          <div class="monitor grid-monitor-layout btd1">
+            <div class="video-box video-container btd2">
+              <div class="video-box_header">
+                <h3 class="video-box_title">Video Streaming</h3>
+              </div>
+              <div class="container-iframe">
+                <iframe
+                  class="video-streaming"
+                  id="video-streaming"
+                  frameborder="0"
+                  allow="autoplay"
+                  allow="encrypted-media"
+                ></iframe>
+              </div>
+            </div>
+
+            <div class="video-box map-container btd2">
+              <div class="video-box_header map-justify">
+                <div class="video-box_title-container">
+                  <h3 class="video-box_title">Map</h3>
+                </div>
+
+                <div class="zoom-buttons">
+                  <button
+                    class="video-box__btn"
+                    id="head-control-button-center-zoom-in"
+                    type="button"
+                  >
+                    <span class="icon-zoom-in"
+                      ><span class="path1"></span><span class="path2"></span
+                    ></span>
+
+                    <div class="controls__name">Zoom In</div>
+                  </button>
+                  <button
+                    class="video-box__btn"
+                    id="head-control-button-center-zoom-out"
+                    type="button"
+                  >
+                    <span class="icon-zoom-out"></span>
+                    <div class="controls__name">Zoom Out</div>
+                  </button>
+                </div>
+              </div>
+              <div class="video-box__body">
+                <div class="container-canvas" id="nav"></div>
+              </div>
+            </div>
+
+            <div class="control-box robot-control-container btd2">
+              <div class="video-box_header map-justify">
+                <h2 class="video-box_title">Robot Control</h2>
+              </div>
+
+              <div class="controls">
+                <div class="controls__row">
+                  <button class="controls__btn" id="button-forward">
+                    <span class="icon-arrow-top"></span>
+                    <div class="controls__name">Forward</div>
+                  </button>
+                </div>
+                <div class="controls__row">
+                  <button class="controls__btn" id="button-left">
+                    <span class="icon-arrow-left"></span>
+                    <div class="controls__name">Left</div>
+                  </button>
+                  <button class="controls__btn" id="button-backward">
+                    <span class="icon-arrow-bottom"></span>
+                    <div class="controls__name">Backward</div>
+                  </button>
+                  <button class="controls__btn" id="button-right">
+                    <span class="icon-arrow-right"></span>
+                    <div class="controls__name">Right</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-box navigation-control-container btd2">
+              <div class="video-box_header map-justify">
+                <h2 class="video-box_title">Navigation</h2>
+              </div>
+
+              <div class="controls">
+                <div class="controls__row">
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-home"
+                    type="button"
+                    data-card-widget="collapse"
+                    title="Home"
+                  >
+                    <span class="icon-save-wp"></span>
+                    <div class="controls__name">Home</div>
+                  </button>
+
+                  <button class="controls__btn" id="head-control-button-brake">
+                    <span class="icon-amcl"></span>
+                    <div class="controls__name">Brake</div>
+                  </button>
+                </div>
+                <div class="controls__row">
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-previous-wp"
+                    type="button"
+                    data-card-widget="collapse"
+                    title="Home"
+                  >
+                    <span class="icon-arrow-left"></span>
+                    <div class="controls__name">Previous WP</div>
+                  </button>
+                  <button class="controls__btn" id="button-center">
+                    <span class="icon-arror-follow"></span>
+                    <div class="controls__name">Follow</div>
+                  </button>
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-next-wp"
+                  >
+                    <span class="icon-arrow-right"></span>
+                    <div class="controls__name">Next WP</div>
+                  </button>
+                </div>
+                <div class="controls__row">
+                  <button
+                    class="controls__btn slider-container"
+                    id="head-control-button-func1-on"
+                    type="button"
+                    title="LAMP"
+                  >
+                    <div class="slider-value-container">
+                      <span class="controls__name">On</span>
+                      <span class="controls__name">Off</span>
+                    </div>
+                    <input
+                      class="controls__slider"
+                      type="range"
+                      value="0"
+                      max="1"
+                      min="0"
+                      step="1"
+                      id="head-func1-slider"
+                    />
+                    <div class="controls__name slider-name">FUNC 1</div>
+                  </button>
+                  <button
+                    class="controls__btn slider-container"
+                    id="head-control-button-func1"
+                    type="button"
+                    title="NEBU"
+                  >
+                    <div class="slider-value-container">
+                      <span class="controls__name">On</span>
+                      <span class="controls__name">Off</span>
+                    </div>
+                    <input
+                      class="controls__slider"
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.5"
+                      value="0"
+                      id="head-func2-slider"
+                    />
+                    <div class="controls__name slider-name">FUNC 2</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-box map-control-container btd2">
+              <div class="video-box_header map-justify">
+                <h2 class="video-box_title">Create Maps &amp; Waypoints</h2>
+              </div>
+
+              <div class="controls">
+                <div class="controls__row">
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-left"
+                    type="button"
+                    title="Mapping"
+                  >
+                    <span class="icon-mapping"></span>
+                    <div class="controls__name">Mapping</div>
+                  </button>
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-center-map"
+                    type="button"
+                    data-card-widget="collapse"
+                    title="Save Map"
+                  >
+                    <span class="icon-save-map"></span>
+                    <div class="controls__name">Save Map</div>
+                  </button>
+                </div>
+                <div class="controls__row">
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-center-clear"
+                    type="button"
+                    data-card-widget="collapse"
+                  >
+                    <span class="icon-choose-wp"></span>
+                    <div class="controls__name">Set New WP</div>
+                  </button>
+                  <button
+                    class="controls__btn"
+                    id="head-control-button-right"
+                    type="button"
+                    data-card-widget="collapse"
+                  >
+                    <span class="icon-save-wp"></span>
+                    <div class="controls__name">Save WP</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="copyright">
+          BotShare © 2021, Created by
+          <a href="https://botshare.solutions/" target="_blank">BotShare</a>
+        </footer>
+      </main>
+    </div>
+
+    <!-- jQuery UI 1.11.4 -->
+    <script src="../static/lib/jquery/dist/jquery.min.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+
+    <!-- Canvas -->
+    <script type="text/javascript" src="../static/js/easeljs.js"></script>
+    <script
+      type="text/javascript"
+      src="../static/js/eventemitter2.min.js"
+    ></script>
+    <script type="text/javascript" src="../static/js/roslib.min.js"></script>
+    <script type="text/javascript" src="../static/js/ros2d.min.js"></script>
+    <script type="text/javascript" src="../static/js/index.js"></script>
+  </body>
+</html>

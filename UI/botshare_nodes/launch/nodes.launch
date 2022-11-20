@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node pkg="botshare_nodes" name="buttons_handler" type="buttons_handler.py" output="screen"/>
+    <node pkg="botshare_nodes" name="Follow_WP" type="follow.py" output="screen"/>
+
+</launch>
